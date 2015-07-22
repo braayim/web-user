@@ -14,6 +14,7 @@ use app\models\InsuranceCompanies;
 
     <?php $form = ActiveForm::begin(); ?>
 
+
     <?= $form->field($model, 'username')->textInput() ?>
 
     <?= $form->field($model, 'fullname')->textInput() ?>

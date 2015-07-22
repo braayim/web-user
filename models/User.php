@@ -2,13 +2,15 @@
 
 namespace app\models;
 
+use Yii;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
+use app\models\ConsoleUsers;
+
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
 
     private static $users = [
         '100' => [

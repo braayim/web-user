@@ -348,8 +348,8 @@ DashAsset::register($this);
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?= Url::to(['/house-classes/create']); ?>"><i class="fa fa-circle-o"></i>Add Company</a></li>
-                <li><a href="<?= Url::to(['/house-class-pics/create']); ?>"><i class="fa fa-circle-o"></i> Find User</a></li>
+                <li><a href="<?= Url::to(['/insurance/create']); ?>"><i class="fa fa-circle-o"></i>Add Company</a></li>
+                <li><a href="<?= Url::to(['/policies/create']); ?>"><i class="fa fa-circle-o"></i> Policies</a></li>
                 <li><a href="<?= Url::to(['/house-class-pics/create']); ?>"><i class="fa fa-circle-o"></i> Payments</a></li>
 
               </ul>

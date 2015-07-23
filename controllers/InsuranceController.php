@@ -34,10 +34,11 @@ class InsuranceController extends Controller
     {
         $searchModel = new InsuranceCompaniesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $model = new InsuranceCompanies();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model'=>$model,
         ]);
     }
 
@@ -58,15 +59,28 @@ class InsuranceController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new InsuranceCompanies();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        public function actionCreate()
+        {
+        $model = new InsuranceCompanies();
+        $searchModel = new InsuranceCompaniesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
+        if ($model->load(Yii::$app->request->post())) {
+        if (Yii::$app->request->isAjax) {
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return ActiveForm::validate($model);
+            }
+
+        $model->attributes = $_POST['InsuranceCompanies'];
+
+        if($model->save())
             return $this->redirect(['view', 'id' => $model->id]);
+        
         } else {
-            return $this->render('create', [
-                'model' => $model,
+            return $this->render('index', [
+                'model' => $model,'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             ]);
         }
     }
@@ -80,12 +94,24 @@ class InsuranceController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $searchModel = new InsuranceCompaniesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
+        if ($model->load(Yii::$app->request->post())) {
+        if (Yii::$app->request->isAjax) {
+                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                        return ActiveForm::validate($model);
+            }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->attributes = $_POST['InsuranceCompanies'];
+
+        if($model->save())
             return $this->redirect(['view', 'id' => $model->id]);
+        
         } else {
-            return $this->render('update', [
-                'model' => $model,
+            return $this->render('index', [
+                'model' => $model,'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             ]);
         }
     }

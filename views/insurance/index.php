@@ -12,12 +12,13 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="insurance-companies-index">
 
-    <h2><?= Html::encode($this->title) ?></h2>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+  <?php if($model->isNewRecord) 
+      echo $this->render('create', ['model' => $model]);  
+   else
+      echo $this->render('update', ['model' => $model]);  
+  ?>
 
-    <p>
-        <?= Html::a('Create Insurance Companies', ['create'], ['class' => 'btn btn-primary']) ?>
-    </p>
+
 <div class="col-xs-12">
   <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-th-list"></i> <?php echo $this->title ?></h3></div>
   <div class="col-xs-4"></div>
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
        
     </div>
     <div class="col-xs-4 left-padding">
-    <?= Html::a('PDF', ['export-data/export-to-pdf', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-warning', 'target'=>'_blank']) ?>
+    <?= Html::a('PDF', ['export-data/export-to-pdf', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-danger', 'target'=>'_blank']) ?>
     </div>
     <div class="col-xs-4 left-padding">
     <?= Html::a('EXCEL', ['export-data/export-excel', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-primary', 'target'=>'_blank']) ?>

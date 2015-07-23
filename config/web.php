@@ -15,6 +15,12 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'pdf'=>[
+            'class'=>'app\components\ExportToPdf',
+        ],
+        'excel'=>[
+            'class'=>'app\components\ExportToExcel',
+        ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,

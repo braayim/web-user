@@ -23,6 +23,7 @@ class DashAsset extends AssetBundle
         '//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
         'css/AdminLTE.min.css',
         'css/_all-skins.min.css',
+        'css/site.css',
         'plugins/iCheck/flat/blue.css',
     ];
     public $js = [

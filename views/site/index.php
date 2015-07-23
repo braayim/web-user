@@ -1,51 +1,53 @@
-<?php
-/* @var $this yii\web\View */
-$this->title = 'Web user';
+<?php 
+use yii\helpers\Html; 
+$this->title = 'Master Configuration';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+<div class="box box-default">
+   
+   <div class="box-body">
+    <div class="row">
+         <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-stethoscope"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text"><?= Html::a('INSURANCE COMPANIES', ['/insurance']);?></span>
+                  <span class="info-box-number"><?= app\models\InsuranceCompanies::find()->count(); ?></span>
+ 
+                  <span class="info-box-bottom"><?= Html::a('<i class="fa fa-plus-square"></i> Create New', ['/insurance/create']); ?></span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text"><?= Html::a('INSURANCE USERS', ['']);?></span>
+                  <span class="info-box-number"><?= app\models\ConsoleUsers::find()->where(["user_level"=>"INSU_COMP_USER"])->count(); ?></span>
+                  <span class="info-box-bottom"><?= Html::a('<i class="fa fa-plus-square"></i> Create New', ['console-users/create']); ?></span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->        
 
-    <div class="body-content">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text"><?= Html::a('INSURANCE POLICIES', ['/policies']);?></span>
+                  <span class="info-box-number"><?= app\models\Policies::find()->count(); ?></span>
+                  <span class="info-box-bottom"><?= Html::a('<i class="fa fa-plus-square"></i> Create New', ['/policies/create']); ?></span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->   
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+    </div> <!-- /. End Row-->
+    
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
+</div><!-- /.box-body -->
 </div>
+
+
+

@@ -19,19 +19,6 @@ DashAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <script type="text/javascript">
-    $(document).ready(function () {
-    $('.treeview .treeview-menu li').click(function(e) {
-
-        $('.treeviw .treeview-menu').removeClass('active');
-
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active');
-        }
-        e.preventDefault();
-    });
-});
-    </script>
 </head>
 <body class="skin-black-light sidebar-mini">
 <?php $this->beginBody() ?>

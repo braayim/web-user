@@ -18,7 +18,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Insurance Companies', ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
+<div class="col-xs-12">
+  <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-th-list"></i> <?php echo $this->title ?></h3></div>
+  <div class="col-xs-4"></div>
+  <div class="col-lg-4 col-sm-4 col-xs-12 no-padding" style="padding-top: 20px !important;">
+    <div class="col-xs-4 left-padding">
+       
+    </div>
+    <div class="col-xs-4 left-padding">
+    <?= Html::a('PDF', ['export-data/export-to-pdf', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-warning', 'target'=>'_blank']) ?>
+    </div>
+    <div class="col-xs-4 left-padding">
+    <?= Html::a('EXCEL', ['export-data/export-excel', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-primary', 'target'=>'_blank']) ?>
+    </div>
+  </div>
+</div>
 
+<div class="col-xs-12" style="padding-top: 10px;">
+    <div class="box">
+<div class="box-body table-responsive">
+    <div class="state-index">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -32,8 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'address',
             'email_address:email',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+             'class' => 'app\components\CustomActionColumn',
+             ],
         ],
     ]); ?>
+        </div>
+    </div>
+  </div>
+</div>
 
 </div>
+

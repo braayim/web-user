@@ -7,6 +7,10 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\InsuranceCompanies;
 
+
+  session_start();
+
+
 /**
  * InsuranceCompaniesSearch represents the model behind the search form about `app\models\InsuranceCompanies`.
  */
@@ -64,6 +68,23 @@ class InsuranceCompaniesSearch extends InsuranceCompanies
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'email_address', $this->email_address]);
 
+
+
+     unset($_SESSION['exportData']);
+    $_SESSION['exportData'] = $dataProvider;
+
         return $dataProvider;
+    }
+
+    public static function getExportData() 
+    {
+    $data = [
+            'data'=>$_SESSION['exportData'],
+            'fileName'=>'Insurance-companies', 
+            'title'=>'Insurance Companies',
+            'exportFile'=>'/insurance/exportPdfExcel',
+        ];
+
+    return $data;
     }
 }

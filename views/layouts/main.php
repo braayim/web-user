@@ -348,7 +348,7 @@ DashAsset::register($this);
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                 <li><a href="#"><i class="fa fa-circle-o"></i> Find user</a></li>
+                 <li><a href="<?= Url::to(['/ura-firstime-reg/create']); ?>"><i class="fa fa-circle-o"></i> Find user</a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i>Manage </a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i>task 2 </a></li>
               </ul>

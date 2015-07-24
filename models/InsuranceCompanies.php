@@ -31,6 +31,7 @@ class InsuranceCompanies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['code', 'description', 'address', 'email_address'], 'required'],
             [['code', 'description', 'address', 'email_address'], 'string']
         ];
     }

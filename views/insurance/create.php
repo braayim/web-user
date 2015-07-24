@@ -1,3 +1,4 @@
+
 <?php
 
 use yii\helpers\Html;
@@ -9,6 +10,13 @@ use yii\helpers\Html;
 $this->params['breadcrumbs'][] = ['label' => 'Insurance Companies', 'url' => ['index']];
 
 ?>
+<script type="text/javascript">
+$(document).ready(function(e) {
+  $("#insurance").addClass('active');
+  e.preventDefaults;
+  });
+</script>
+
 <div class="col-xs-12">
   <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-plus"></i> Add Insurance Company</h3>
   </div>

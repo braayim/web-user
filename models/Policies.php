@@ -58,8 +58,8 @@ class Policies extends \yii\db\ActiveRecord
             'policy_holder_name' => 'PH Name',
             'policy_holder_phone' => 'PH Phone',
             'policy_number' => 'Policy Number',
-            'insurance_company' => 'Insurance Company',
-            'sticker_reference' => 'Sticker Reference',
+            'insurance_company' => 'Insurance Co.',
+            'sticker_reference' => 'Sticker Ref',
         ];
     }
 

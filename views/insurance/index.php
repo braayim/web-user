@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
       echo $this->render('update', ['model' => $model]);  
   ?>
 
-
 <div class="col-xs-12">
   <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-th-list"></i> <?php echo $this->title ?></h3></div>
   <div class="col-xs-4"></div>
@@ -27,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
        
     </div>
     <div class="col-xs-4 left-padding">
-    <?= Html::a('PDF', ['export-data/export-to-pdf', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-danger', 'target'=>'_blank']) ?>
+    <?= Html::a('<i class="fa fa-file-excel-o"></i>&nbsp;&nbsp; PDF', ['export-data/export-to-pdf', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-danger btn-sml', 'target'=>'_blank']) ?>
     </div>
     <div class="col-xs-4 left-padding">
-    <?= Html::a('EXCEL', ['export-data/export-excel', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-primary', 'target'=>'_blank']) ?>
+    <?= Html::a('<i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp; EXCEL', ['export-data/export-excel', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-primary btn-sml', 'target'=>'_blank']) ?>
     </div>
   </div>
 </div>

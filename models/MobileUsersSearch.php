@@ -7,11 +7,15 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\MobileUsers;
 
+session_start();
+
 /**
  * MobileUsersSearch represents the model behind the search form about `app\models\MobileUsers`.
  */
 class MobileUsersSearch extends MobileUsers
 {
+
+    public $modelSearch;
     /**
      * @inheritdoc
      */
@@ -19,7 +23,7 @@ class MobileUsersSearch extends MobileUsers
     {
         return [
             [['id', 'incorrect_access_count', 'parent_insurance_company'], 'integer'],
-            [['phone_number', 'pin', 'name', 'date_created', 'type', 'auth_imsi', 'auth_imei', 'activation_code'], 'safe'],
+            [['phone_number', 'pin', 'name', 'modelSearch', 'date_created', 'type', 'auth_imsi', 'auth_imei', 'activation_code'], 'safe'],
             [['locked', 'pin_change_flag'], 'boolean'],
         ];
     }
@@ -65,14 +69,25 @@ class MobileUsersSearch extends MobileUsers
             'parent_insurance_company' => $this->parent_insurance_company,
         ]);
 
-        $query->andFilterWhere(['like', 'phone_number', $this->phone_number])
-            ->andFilterWhere(['like', 'pin', $this->pin])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'auth_imsi', $this->auth_imsi])
-            ->andFilterWhere(['like', 'auth_imei', $this->auth_imei])
-            ->andFilterWhere(['like', 'activation_code', $this->activation_code]);
+        $query->orFilterWhere(['ilike', 'phone_number', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'name', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'type', $this->modelSearch]);
+
+    unset($_SESSION['exportData']);
+    $_SESSION['exportData'] = $dataProvider;
 
         return $dataProvider;
+    }
+
+    public static function getExportData() 
+    {
+    $data = [
+            'data'=>$_SESSION['exportData'],
+            'fileName'=>'agents', 
+            'title'=>'Mobile Users',
+            'exportFile'=>'/mobile-users/exportPdfExcel',
+        ];
+
+    return $data;
     }
 }

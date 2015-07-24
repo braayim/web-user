@@ -7,11 +7,15 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\UraFirstimeReg;
 
+session_start();
+
 /**
  * UraFirstimeRegSearch represents the model behind the search form about `app\models\UraFirstimeReg`.
  */
 class UraFirstimeRegSearch extends UraFirstimeReg
 {
+    
+    public $modelSearch;
     /**
      * @inheritdoc
      */
@@ -19,7 +23,7 @@ class UraFirstimeRegSearch extends UraFirstimeReg
     {
         return [
             [['id', 'gross_weight', 'seating_capacity', 'payment_id'], 'integer'],
-            [['registration_number', 'registration_name', 'registration_date', 'date_created', 'date_registered', 'engine_capacity', 'memo', 'model', 'type', 'purpose', 'engine_number', 'colour', 'make', 'tyre_size', 'year_of_manufacture', 'chassis_number', 'tin', 'date_transacted'], 'safe'],
+            [['registration_number', 'registration_name', 'modelSearch', 'registration_date', 'date_created', 'date_registered', 'engine_capacity', 'memo', 'model', 'type', 'purpose', 'engine_number', 'colour', 'make', 'tyre_size', 'year_of_manufacture', 'chassis_number', 'tin', 'date_transacted'], 'safe'],
             [['transacted'], 'boolean'],
         ];
     }
@@ -69,20 +73,35 @@ class UraFirstimeRegSearch extends UraFirstimeReg
             'payment_id' => $this->payment_id,
         ]);
 
-        $query->andFilterWhere(['like', 'registration_number', $this->registration_number])
-            ->andFilterWhere(['like', 'registration_name', $this->registration_name])
-            ->andFilterWhere(['like', 'engine_capacity', $this->engine_capacity])
-            ->andFilterWhere(['like', 'memo', $this->memo])
-            ->andFilterWhere(['like', 'model', $this->model])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'purpose', $this->purpose])
-            ->andFilterWhere(['like', 'engine_number', $this->engine_number])
-            ->andFilterWhere(['like', 'colour', $this->colour])
-            ->andFilterWhere(['like', 'make', $this->make])
-            ->andFilterWhere(['like', 'tyre_size', $this->tyre_size])
-            ->andFilterWhere(['like', 'chassis_number', $this->chassis_number])
-            ->andFilterWhere(['like', 'tin', $this->tin]);
+        $query->orFilterWhere(['ilike', 'registration_number', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'registration_name', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'engine_capacity', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'memo', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'model', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'type', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'purpose', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'engine_number', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'colour', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'make', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'tyre_size', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'chassis_number', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'tin', $this->modelSearch]);
+
+      unset($_SESSION['exportData']);
+    $_SESSION['exportData'] = $dataProvider;
 
         return $dataProvider;
+    }
+
+    public static function getExportData() 
+    {
+    $data = [
+            'data'=>$_SESSION['exportData'],
+            'fileName'=>'ura_first_time_reg', 
+            'title'=>'URA First Time Registration',
+            'exportFile'=>'/ura-firstime-reg/exportPdfExcel',
+        ];
+
+    return $data;
     }
 }

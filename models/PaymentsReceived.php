@@ -55,19 +55,19 @@ class PaymentsReceived extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'aggregator' => 'Aggregator',
-            'aggregator_transaction_id' => 'Aggregator Transaction ID',
-            'vehicle_reference' => 'Vehicle Reference',
-            'aggregator_payment_processed_date' => 'Aggregator Payment Processed Date',
+            'aggregator_transaction_id' => 'Aggr Trans ID',
+            'vehicle_reference' => 'Vehicle Ref',
+            'aggregator_payment_processed_date' => 'Aggr Payment Processed Date',
             'date_received' => 'Date Received',
-            'aggregator_payment_reference' => 'Aggregator Payment Reference',
+            'aggregator_payment_reference' => 'Aggr Payment Ref',
             'amount' => 'Amount',
-            'aggregator_memo' => 'Aggregator Memo',
+            'aggregator_memo' => 'Aggr Memo',
             'payer_mobile' => 'Payer Mobile',
             'payer_email' => 'Payer Email',
             'payer_name' => 'Payer Name',
             'payment_recon_flag' => 'Payment Recon Flag',
             'payment_status' => 'Payment Status',
-            'sticker_generated' => 'Sticker Generated',
+            'sticker_generated' => 'Sticker',
         ];
     }
 }

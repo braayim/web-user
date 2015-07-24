@@ -21,6 +21,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
 			'id' => 'insurance-companies-form',
 			'action' => $action,
+      'enableAjaxValidation' => true,
 			
     ]); ?>
 

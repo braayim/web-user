@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Policies;
 
+session_start();
 /**
  * PoliciesSearch represents the model behind the search form about `app\models\Policies`.
  */
@@ -63,12 +64,27 @@ class PoliciesSearch extends Policies
             'insurance_company' => $this->insurance_company,
         ]);
 
-        $query->andFilterWhere(['like', 'registration_number', $this->registration_number])
-            ->andFilterWhere(['like', 'policy_holder_name', $this->policy_holder_name])
-            ->andFilterWhere(['like', 'policy_holder_phone', $this->policy_holder_phone])
-            ->andFilterWhere(['like', 'policy_number', $this->policy_number])
+        $query->andFilterWhere(['ilike', 'registration_number', $this->registration_number])
+            ->andFilterWhere(['ilike', 'policy_holder_name', $this->policy_holder_name])
+            ->andFilterWhere(['ilike', 'policy_holder_phone', $this->policy_holder_phone])
+            ->andFilterWhere(['ilike', 'policy_number', $this->policy_number])
             ->andFilterWhere(['like', 'sticker_reference', $this->sticker_reference]);
 
+     unset($_SESSION['exportData']);
+    $_SESSION['exportData'] = $dataProvider;
+
         return $dataProvider;
+    }
+
+    public static function getExportData() 
+    {
+    $data = [
+            'data'=>$_SESSION['exportData'],
+            'fileName'=>'Insurance-companies', 
+            'title'=>'Insurance Companies',
+            'exportFile'=>'/policies/exportPdfExcel',
+        ];
+
+    return $data;
     }
 }

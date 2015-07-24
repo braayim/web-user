@@ -10,18 +10,26 @@ use yii\grid\GridView;
 $this->title = 'Policies';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="policies-index">
+<div class="col-xs-12">
+  <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-th-list"></i> <?= $this->title ?></h3></div>
+  <div class="col-xs-4"></div>
+  <div class="col-lg-4 col-sm-4 col-xs-12 no-padding" style="padding-top: 20px !important;">
+    <div class="col-xs-4 left-padding">
+        <?= Html::a('ADD', ['create'], ['class' => 'btn btn-block btn-success']) ?>
+    </div>
+    <div class="col-xs-4 left-padding">
+    <?= Html::a('PDF', ['/export-data/export-to-pdf', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-warning', 'target'=>'_blank']) ?>
+    </div>
+    <div class="col-xs-4 left-padding">
+    <?= Html::a('EXCEL', ['/export-data/export-excel', 'model'=>get_class($searchModel)], ['class' => 'btn btn-block btn-primary', 'target'=>'_blank']) ?>
+    </div>
+  </div>
+</div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Policies', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+    <div class="col-xs-12" style="padding-top: 10px;">
+    <div class="box">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'layout'  => "{items}\n{pager}",
         'headerRowOptions' => ['style'=>'background-color:#fff'],
         'columns' => [
@@ -34,8 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'policy_number',
             'sticker_reference',
 
-            ['class' => 'yii\grid\ActionColumn'],
+             [
+             'class' => 'app\components\CustomActionColumn',
+             ],
         ],
     ]); ?>
 
+</div>
+</div>
 </div>

@@ -76,7 +76,12 @@ class InsuranceController extends Controller
 
         if($model->save())
             return $this->redirect(['view', 'id' => $model->id]);
-        
+        else
+            return $this->render('index', [
+                'model' => $model,'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                ]);
+            
         } else {
             return $this->render('index', [
                 'model' => $model,'searchModel' => $searchModel,
@@ -107,7 +112,12 @@ class InsuranceController extends Controller
 
         if($model->save())
             return $this->redirect(['view', 'id' => $model->id]);
-        
+        else
+            return $this->render('index', [
+                'model' => $model,'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                ]);
+            
         } else {
             return $this->render('index', [
                 'model' => $model,'searchModel' => $searchModel,

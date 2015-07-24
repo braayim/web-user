@@ -329,13 +329,13 @@ DashAsset::register($this);
                 <li><a href=""><i class="fa fa-circle-o"></i> Change Items</a></li>
               </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview" id="insurance">
               <a href="#">
                 <i class="fa fa-table"></i> <span>Insurance</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?= Url::to(['/insurance/create']); ?>"><i class="fa fa-circle-o"></i>Add Company</a></li>
+                <li id="insurance_create"><a href="<?= Url::to(['/insurance/create']); ?>"><i class="fa fa-circle-o"></i>Add Company</a></li>
                 <li><a href="<?= Url::to(['/policies/create']); ?>"><i class="fa fa-circle-o"></i> Policies</a></li>
                 <li><a href="<?= Url::to(['/house-class-pics/create']); ?>"><i class="fa fa-circle-o"></i> Payments</a></li>
 

@@ -5,22 +5,24 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\PaymentAggregators;
+use app\models\Inbox;
 
 /**
- * PaymentAggregatorsSearch represents the model behind the search form about `app\models\PaymentAggregators`.
+ * InboxSearch represents the model behind the search form about `app\models\Inbox`.
  */
-class PaymentAggregatorsSearch extends PaymentAggregators
+class InboxSearch extends Inbox
 {
+    
+    public $searchModel;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'incorrect_access_count'], 'integer'],
-            [['name', 'access_code', 'access_password', 'security_code', 'date_created', 'email_address'], 'safe'],
-            [['active', 'locked'], 'boolean'],
+            [['id'], 'integer'],
+            [['sender', 'recipient', 'date_received', 'searchModel', 'message_text', 'recipient_type'], 'safe'],
+            [['read'], 'boolean'],
         ];
     }
 
@@ -42,7 +44,7 @@ class PaymentAggregatorsSearch extends PaymentAggregators
      */
     public function search($params)
     {
-        $query = PaymentAggregators::find();
+        $query = Inbox::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,17 +60,14 @@ class PaymentAggregatorsSearch extends PaymentAggregators
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'active' => $this->active,
-            'date_created' => $this->date_created,
-            'incorrect_access_count' => $this->incorrect_access_count,
-            'locked' => $this->locked,
+            'date_received' => $this->date_received,
+            'read' => $this->read,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'access_code', $this->access_code])
-            ->andFilterWhere(['like', 'access_password', $this->access_password])
-            ->andFilterWhere(['like', 'security_code', $this->security_code])
-            ->andFilterWhere(['like', 'email_address', $this->email_address]);
+        $query->orFilterWhere(['ilike', 'sender', $this->searchModel])
+            ->orFilterWhere(['ilike', 'recipient', $this->searchModel])
+            ->orFilterWhere(['ilike', 'message_text', $this->searchModel])
+            ->orFilterWhere(['ilike', 'recipient_type', $this->searchModel]);
 
         return $dataProvider;
     }

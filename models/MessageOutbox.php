@@ -59,4 +59,10 @@ class MessageOutbox extends \yii\db\ActiveRecord
             'email_attachment' => 'Email Attachment',
         ];
     }
+
+    public function getSubject()
+    {
+        $subject = substr($this->message_text,0,50).' ';
+        return $subject;
+    }
 }

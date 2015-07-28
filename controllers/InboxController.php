@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\PaymentsReceived;
-use app\models\PaymentsReceivedSearch;
+use app\models\Inbox;
+use app\models\InboxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PaymentsReceivedController implements the CRUD actions for PaymentsReceived model.
+ * InboxController implements the CRUD actions for Inbox model.
  */
-class PaymentsReceivedController extends Controller
+class InboxController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class PaymentsReceivedController extends Controller
     }
 
     /**
-     * Lists all PaymentsReceived models.
+     * Lists all Inbox models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PaymentsReceivedSearch();
+        $searchModel = new InboxSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class PaymentsReceivedController extends Controller
     }
 
     /**
-     * Displays a single PaymentsReceived model.
+     * Displays a single Inbox model.
      * @param integer $id
      * @return mixed
      */
@@ -54,7 +54,44 @@ class PaymentsReceivedController extends Controller
     }
 
     /**
-     * Deletes an existing PaymentsReceived model.
+     * Creates a new Inbox model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Inbox();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Updates an existing Inbox model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Deletes an existing Inbox model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -67,15 +104,15 @@ class PaymentsReceivedController extends Controller
     }
 
     /**
-     * Finds the PaymentsReceived model based on its primary key value.
+     * Finds the Inbox model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return PaymentsReceived the loaded model
+     * @return Inbox the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = PaymentsReceived::findOne($id)) !== null) {
+        if (($model = Inbox::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

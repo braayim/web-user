@@ -49,5 +49,3 @@ $this->params['breadcrumbs'][] = $this->title;
 </div><!-- /.box-body -->
 </div>
 
-
-

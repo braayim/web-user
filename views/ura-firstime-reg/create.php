@@ -32,3 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 </div>
+
+<?php 
+$script = <<< JS
+$("document").ready(function(){ 
+    $("#ura").removeClass('active').addClass('active');
+    $("#ura_create").removeClass('active').addClass('active');
+  });
+JS;
+$this->registerJs($script);
+?>

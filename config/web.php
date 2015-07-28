@@ -22,8 +22,8 @@ $config = [
             'class'=>'app\components\ExportToExcel',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'identityClass' => 'app\models\ConsoleUsers',
+            'enableAutoLogin' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

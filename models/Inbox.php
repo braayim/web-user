@@ -52,4 +52,10 @@ class Inbox extends \yii\db\ActiveRecord
             'recipient_type' => 'Recipient Type',
         ];
     }
+
+    public function getSubject()
+    {
+        $subject = substr($this->message_text,0,50).' ';
+        return $subject;
+    }
 }

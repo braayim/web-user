@@ -8,7 +8,7 @@ use app\models\InsuranceCompaniesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\widgets\ActiveForm;
 /**
  * InsuranceController implements the CRUD actions for InsuranceCompanies model.
  */

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Policies */
+/* @var $model app\models\Inbox */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Policies', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Inboxes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="policies-view">
+<div class="inbox-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,25 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'date_created',
-            'start_date',
-            'end_date',
-            'registration_number',
-            'policy_holder_name',
-            'policy_holder_phone',
-            'policy_number',
-            'insurance_company',
-            'sticker_reference',
+            'sender',
+            'recipient',
+            'date_received',
+            'message_text',
+            'read:boolean',
+            'recipient_type',
         ],
     ]) ?>
 
 </div>
-<?php 
-$script = <<< JS
-$("document").ready(function(){ 
-    $("#insurance").removeClass('active').addClass('active');
-    $("#policies").removeClass('active').addClass('active');
-  });
-JS;
-$this->registerJs($script);
-?>

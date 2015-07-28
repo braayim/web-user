@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ConsoleUsers;
-use app\models\ConsoleUsersSearch;
+use app\models\MessageOutbox;
+use app\models\MessageOutboxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ConsoleUsersController implements the CRUD actions for ConsoleUsers model.
+ * OutboxController implements the CRUD actions for MessageOutbox model.
  */
-class ConsoleUsersController extends Controller
+class OutboxController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Lists all ConsoleUsers models.
+     * Lists all MessageOutbox models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ConsoleUsersSearch();
+        $searchModel = new MessageOutboxSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Displays a single ConsoleUsers model.
+     * Displays a single MessageOutbox model.
      * @param integer $id
      * @return mixed
      */
@@ -54,18 +54,15 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Creates a new ConsoleUsers model.
+     * Creates a new MessageOutbox model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ConsoleUsers();
+        $model = new MessageOutbox();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($this->password);
-            $model->generateAuthKey();
-            $model->save();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -75,7 +72,7 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Updates an existing ConsoleUsers model.
+     * Updates an existing MessageOutbox model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +91,7 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Deletes an existing ConsoleUsers model.
+     * Deletes an existing MessageOutbox model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,24 +104,18 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Finds the ConsoleUsers model based on its primary key value.
+     * Finds the MessageOutbox model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ConsoleUsers the loaded model
+     * @return MessageOutbox the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ConsoleUsers::findOne($id)) !== null) {
+        if (($model = MessageOutbox::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function encrypt($value)
-    {
-        $hash = Yii::$app->getSecurity()->generatePasswordHash($value);
-        return $hash;
     }
 }

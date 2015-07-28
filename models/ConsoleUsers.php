@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "console_users".
@@ -20,9 +24,8 @@ use Yii;
  * @property integer $parent_insurance_company
  * @property string $user_permissions
  */
-class ConsoleUsers extends \yii\db\ActiveRecord
+class ConsoleUsers extends ActiveRecord implements IdentityInterface
 {
-    public $password2;
     const INSU_COMP_USER = 1;
     const NEON =2;
     const URA =3;
@@ -38,20 +41,27 @@ class ConsoleUsers extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className()
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
             [['username', 'fullname', 'mobile_number', 'email_address'], 'required'],
-            [['username', 'fullname', 'mobile_number', 'email_address', 'password', 'password2', 'user_level', 'user_permissions'], 'string'],
+            [['username', 'fullname', 'mobile_number', 'email_address', 'password', 'user_level', 'user_permissions'], 'string'],
             [['incorrect_access_count', 'parent_insurance_company'], 'integer'],
-            [['date_created'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['locked'], 'boolean'],
+            [['password_reset_token', 'auth_key'], 'string', 'max' => 2044],
             [['username'], 'unique']
         ];
-    }
-
-    public function confirm_password(){
-
     }
 
     /**
@@ -66,31 +76,147 @@ class ConsoleUsers extends \yii\db\ActiveRecord
             'mobile_number' => 'Mobile Number',
             'email_address' => 'Email Address',
             'incorrect_access_count' => 'Incorrect Access Count',
-            'password' => 'Create Password',
-            'password2' => 'Confirm Password',
+            'password' => 'Password',
+            'created_at' => 'Created At',
             'locked' => 'Locked',
-            'user_level' => 'User Type',
-            'parent_insurance_company' => 'Insurance Company',
+            'user_level' => 'User Level',
+            'parent_insurance_company' => 'Parent Insurance Company',
             'user_permissions' => 'User Permissions',
+            'password_reset_token' => 'Password Reset Token',
+            'auth_key' => 'Auth Key',
+            'updated_at' => 'Updated At',
         ];
     }
 
-    public function beforeSave($insert)
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
     {
-        if (parent::beforeSave($insert)) {
-            if(Yii::$app->user->isGuest){
-                $this->date_created = date("Ymd");
-                $this->password = $this->encrypt($this->password);
-            }
-            return true;
-        } else {
-            return false;
-        }
+        return static::findOne(['id' => $id, 'locked' => false]);
     }
 
-    private function encrypt($value)
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
     {
-        $passwordhash = sha1();
+        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    }
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::findOne(['username' => $username, 'locked' => false]);
+    }
+
+    /**
+     * Finds user by password reset token
+     *
+     * @param string $token password reset token
+     * @return static|null
+     */
+    public static function findByPasswordResetToken($token)
+    {
+        if (!static::isPasswordResetTokenValid($token)) {
+            return null;
+        }
+
+        return static::findOne([
+            'password_reset_token' => $token,
+            'locked' => false,
+        ]);
+    }
+
+    /**
+     * Finds out if password reset token is valid
+     *
+     * @param string $token password reset token
+     * @return boolean
+     */
+    public static function isPasswordResetTokenValid($token)
+    {
+        if (empty($token)) {
+            return false;
+        }
+        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        $parts = explode('_', $token);
+        $timestamp = (int) end($parts);
+        return $timestamp + $expire >= time();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+
+    /**
+     * Validates password
+     *
+     * @param string $password password to validate
+     * @return boolean if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    /**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * Generates new password reset token
+     */
+    public function generatePasswordResetToken()
+    {
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    /**
+     * Removes password reset token
+     */
+    public function removePasswordResetToken()
+    {
+        $this->password_reset_token = null;
     }
 
 }

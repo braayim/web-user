@@ -22,12 +22,7 @@ use app\models\InsuranceCompanies;
         $action = ['create'];
     ?>
     
-    <?php $form = ActiveForm::begin([
-            'id' => 'policies-form',
-            'action' => $action,
-      'enableAjaxValidation' => true,
-            
-    ]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
    </br>
    <div class="col-xs-12 col-lg-12 no-padding">

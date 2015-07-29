@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ConsoleUsers;
-use app\models\ConsoleUsersSearch;
+use app\models\AuthItemChild;
+use app\models\AuthItemChildSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ConsoleUsersController implements the CRUD actions for ConsoleUsers model.
+ * AuthItemChildController implements the CRUD actions for AuthItemChild model.
  */
-class ConsoleUsersController extends Controller
+class AuthItemChildController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Lists all ConsoleUsers models.
+     * Lists all AuthItemChild models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ConsoleUsersSearch();
+        $searchModel = new AuthItemChildSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,31 +42,29 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Displays a single ConsoleUsers model.
-     * @param integer $id
+     * Displays a single AuthItemChild model.
+     * @param string $parent
+     * @param string $child
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($parent, $child)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($parent, $child),
         ]);
     }
 
     /**
-     * Creates a new ConsoleUsers model.
+     * Creates a new AuthItemChild model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ConsoleUsers();
+        $model = new AuthItemChild();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($this->password);
-            $model->generateAuthKey();
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'parent' => $model->parent, 'child' => $model->child]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,17 +73,18 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Updates an existing ConsoleUsers model.
+     * Updates an existing AuthItemChild model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $parent
+     * @param string $child
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($parent, $child)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($parent, $child);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'parent' => $model->parent, 'child' => $model->child]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -94,37 +93,33 @@ class ConsoleUsersController extends Controller
     }
 
     /**
-     * Deletes an existing ConsoleUsers model.
+     * Deletes an existing AuthItemChild model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $parent
+     * @param string $child
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($parent, $child)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($parent, $child)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the ConsoleUsers model based on its primary key value.
+     * Finds the AuthItemChild model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return ConsoleUsers the loaded model
+     * @param string $parent
+     * @param string $child
+     * @return AuthItemChild the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($parent, $child)
     {
-        if (($model = ConsoleUsers::findOne($id)) !== null) {
+        if (($model = AuthItemChild::findOne(['parent' => $parent, 'child' => $child])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function encrypt($value)
-    {
-        $hash = Yii::$app->getSecurity()->generatePasswordHash($value);
-        return $hash;
     }
 }

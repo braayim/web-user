@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\PaymentAggregators;
-
+session_start();
 /**
  * PaymentAggregatorsSearch represents the model behind the search form about `app\models\PaymentAggregators`.
  */
@@ -70,6 +70,21 @@ class PaymentAggregatorsSearch extends PaymentAggregators
             ->andFilterWhere(['like', 'security_code', $this->security_code])
             ->andFilterWhere(['like', 'email_address', $this->email_address]);
 
-        return $dataProvider;
-    }
+        unset($_SESSION['exportData']);
+        $_SESSION['exportData'] = $dataProvider;
+
+            return $dataProvider;
+        }
+
+        public static function getExportData() 
+        {
+        $data = [
+                'data'=>$_SESSION['exportData'],
+                'fileName'=>'aggregators', 
+                'title'=>'Aggregators',
+                'exportFile'=>'/payment-aggregators/exportPdfExcel',
+            ];
+
+        return $data;
+        }
 }

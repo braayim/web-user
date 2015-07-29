@@ -22,8 +22,12 @@ $config = [
             'class'=>'app\components\ExportToExcel',
         ],
         'user' => [
-            'identityClass' => 'app\models\ConsoleUsers',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use yii\web\ForbiddenHttpException;
 /**
  * InsuranceController implements the CRUD actions for InsuranceCompanies model.
  */
@@ -32,14 +33,19 @@ class InsuranceController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new InsuranceCompaniesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $model = new InsuranceCompanies();
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'model'=>$model,
-        ]);
+        if(Yii::$app->user->can('ira_user')){
+            $searchModel = new InsuranceCompaniesSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $model = new InsuranceCompanies();
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'model'=>$model,
+            ]);
+
+        } else{
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**
@@ -62,32 +68,32 @@ class InsuranceController extends Controller
 
         public function actionCreate()
         {
-        $model = new InsuranceCompanies();
-        $searchModel = new InsuranceCompaniesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    
-        if ($model->load(Yii::$app->request->post())) {
-        if (Yii::$app->request->isAjax) {
-                        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                        return ActiveForm::validate($model);
-            }
+            $model = new InsuranceCompanies();
+            $searchModel = new InsuranceCompaniesSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+            if ($model->load(Yii::$app->request->post())) {
+            if (Yii::$app->request->isAjax) {
+                            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                            return ActiveForm::validate($model);
+                }
 
-        $model->attributes = $_POST['InsuranceCompanies'];
+            $model->attributes = $_POST['InsuranceCompanies'];
 
-        if($model->save())
-            return $this->redirect(['view', 'id' => $model->id]);
-        else
-            return $this->render('index', [
-                'model' => $model,'searchModel' => $searchModel,
+            if($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
+            else
+                return $this->render('index', [
+                    'model' => $model,'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    ]);
+                
+            } else {
+                return $this->render('index', [
+                    'model' => $model,'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
                 ]);
-            
-        } else {
-            return $this->render('index', [
-                'model' => $model,'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            ]);
-        }
+            }
     }
 
     /**

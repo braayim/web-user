@@ -55,3 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 </div>
+<?php 
+$script = <<< JS
+$("document").ready(function(){ 
+    $("#insurance").removeClass('active').addClass('active');
+    $("#aggregators").removeClass('active').addClass('active');
+  });
+JS;
+$this->registerJs($script);
+?>

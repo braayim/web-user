@@ -21,21 +21,11 @@ use app\models\InsuranceCompanies;
 
     <?= $form->field($model, 'mobile_number')->textInput() ?>
 
-    <?= $form->field($model, 'user_level')->dropDownList(['1'=> 'Insurance Company',
-     '2'=>'Neon', '3'=>'URA'], ['prompt'=>'User type']
-    ) ?>
-
-    <?= $form->field($model, 'parent_insurance_company')->dropDownList(
-        ArrayHelper::map(InsuranceCompanies::find()->all(), 'id', 'code'), ['prompt'=>'Select Your insurance Company']
-    ) ?>
-
     <?= $form->field($model, 'email_address')->textInput() ?>
 
     <?//= $form->field($model, 'incorrect_access_count')->textInput() ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>
-
-    <?= $form->field($model, 'password2')->passwordInput() ?>
 
     <?//= $form->field($model, 'date_created')->textInput() ?>
 

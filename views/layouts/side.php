@@ -46,9 +46,10 @@ use yii\helpers\Url;
                 <span class="label label-primary pull-right">4</span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?= Url::to(['/user/admin/index']); ?>"><i class="fa fa-circle-o"></i> Manage Users</a></li>
-                <li><a href="<?= Url::to(['/user/admin/create']); ?>"><i class="fa fa-circle-o"></i> New User</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> New Role</a></li>
+                <li id="user"><a href="<?= Url::to(['/user/index']); ?>"><i class="fa fa-circle-o"></i> Manage Users</a></li>
+                <li id="user_create"><a href="<?= Url::to(['/user/create']); ?>"><i class="fa fa-circle-o"></i> New User</a></li>
+                <li><a href="<?= Url::to(['/auth-item/create']); ?>"><i class="fa fa-circle-o"></i> New Role</a></li>
+                <li><a href="<?= Url::to(['/auth-rule/create']); ?>"><i class="fa fa-circle-o"></i> New Rule</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -58,10 +59,9 @@ use yii\helpers\Url;
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?= Url::to(['/estate/create']); ?>"><i class="fa fa-circle-o"></i> Add Estate</a></li>
-                <li><a href="<?= Url::to(['/estate-pics/create']); ?>"><i class="fa fa-circle-o"></i> Add Photos</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Change Something</a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i> Change Items</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> setting 1</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> setting 2</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> setting 3</a></li>
               </ul>
             </li>
             <li class="treeview" id="insurance">
@@ -72,7 +72,8 @@ use yii\helpers\Url;
               <ul class="treeview-menu">
                 <li id="insurance_create"><a href="<?= Url::to(['/insurance/create']); ?>"><i class="fa fa-circle-o"></i>Add Company</a></li>
                 <li id="policies"><a href="<?= Url::to(['/policies']); ?>"><i class="fa fa-circle-o"></i> Policies</a></li>
-                <li id="payments"><a href="<?= Url::to(['/house-class-pics/create']); ?>"><i class="fa fa-circle-o"></i> Payments</a></li>
+                <li id="payments"><a href="<?= Url::to(['/payments-received/index']); ?>"><i class="fa fa-circle-o"></i> Payments Received</a></li>
+                <li id="aggregators"><a href="<?= Url::to(['/payment-aggregators/index']); ?>"><i class="fa fa-circle-o"></i> Aggregators</a></li>
 
               </ul>
             </li>
@@ -89,19 +90,7 @@ use yii\helpers\Url;
               </ul>
             </li>
 
-            
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-edit"></i> <span>Neon</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Action 1s</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Action 2</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Action 3</a></li>
-              </ul>
-            </li>
-            <li id="messages">
+             <li id="messages">
               <a>
                 <i class="fa fa-envelope"></i> <span>Messages</span>
                 <?php
@@ -120,12 +109,24 @@ use yii\helpers\Url;
                 <li id="outbox"><a href="<?= Url::to(['/outbox']); ?>"><i class="fa fa-circle-o"></i> Outbox
                    <? 
                    $outbox = app\models\MessageOutbox::find()->count();
-                  if($outbox > 0){?>
+                  if($outbox > 0){ ?>
                 <small class="label pull-right bg-yellow"><?= $outbox ?></small>
                 <?php } ?>
                 </a></li>
               </ul>
             </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-edit"></i> <span>Neon</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#"><i class="fa fa-circle-o"></i> Action 1s</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Action 2</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Action 3</a></li>
+              </ul>
+            </li>
+            
             <li>
               <a href="pages/calendar.html">
                 <i class="fa fa-calendar"></i> <span>Calendar</span>

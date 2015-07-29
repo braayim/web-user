@@ -5,13 +5,14 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ConsoleUsers;
+use app\models\User;
 
 /**
  * ConsoleUsersSearch represents the model behind the search form about `app\models\ConsoleUsers`.
  */
-class ConsoleUsersSearch extends ConsoleUsers
+class UserSearch extends User
 {
+    public $modelSearch;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class ConsoleUsersSearch extends ConsoleUsers
     {
         return [
             [['id', 'incorrect_access_count', 'parent_insurance_company'], 'integer'],
-            [['username', 'fullname', 'mobile_number', 'email_address', 'password', 'date_created', 'user_level', 'user_permissions'], 'safe'],
+            [['username', 'fullname', 'mobile_number', 'email_address', 'modelSearch', 'password', 'date_created', 'user_level', 'user_permissions'], 'safe'],
             [['locked'], 'boolean'],
         ];
     }
@@ -29,6 +30,7 @@ class ConsoleUsersSearch extends ConsoleUsers
      */
     public function scenarios()
     {
+
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -42,7 +44,7 @@ class ConsoleUsersSearch extends ConsoleUsers
      */
     public function search($params)
     {
-        $query = ConsoleUsers::find();
+        $query = User::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -64,13 +66,13 @@ class ConsoleUsersSearch extends ConsoleUsers
             'parent_insurance_company' => $this->parent_insurance_company,
         ]);
 
-        $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'fullname', $this->fullname])
-            ->andFilterWhere(['like', 'mobile_number', $this->mobile_number])
-            ->andFilterWhere(['like', 'email_address', $this->email_address])
-            ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'user_level', $this->user_level])
-            ->andFilterWhere(['like', 'user_permissions', $this->user_permissions]);
+        $query->orFilterWhere(['ilike', 'username', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'fullname', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'mobile_number', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'email_address', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'password', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'user_level', $this->modelSearch])
+            ->orFilterWhere(['ilike', 'user_permissions', $this->modelSearch]);
 
         return $dataProvider;
     }

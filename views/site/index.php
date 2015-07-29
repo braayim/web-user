@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text"><?= Html::a('INSURANCE USERS', ['']);?></span>
-                  <span class="info-box-number"><?= app\models\ConsoleUsers::find()->where(["user_level"=>"INSU_COMP_USER"])->count(); ?></span>
+                  <span class="info-box-number"><?= \app\models\User::find()->where(["user_level"=>"INSU_COMP_USER"])->count(); ?></span>
                   <span class="info-box-bottom"><?= Html::a('<i class="fa fa-plus-square"></i> Create New', ['console-users/create']); ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->

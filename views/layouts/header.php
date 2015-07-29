@@ -207,10 +207,12 @@ use yii\helpers\Url;
                 </ul>
               </li>
               <!-- User Account: style can be found in dropdown.less -->
+              <?php if(!\Yii::$app->user->isGuest) { ?>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="images/profile.jpg" class="user-image" alt="User" />
-                  <span class="hidden-xs">username</span>
+                  <span class="hidden-xs">
+                    <?= Yii::$app->user->identity->username; ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -239,11 +241,16 @@ use yii\helpers\Url;
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <?= Html::a('Sign Out', Url::toRoute(['/site/logout']), ['data-method' => 'post'] ) ?>
                     </div>
                   </li>
                 </ul>
               </li>
+              <?php }else{?>
+              <li>
+                <a href="<?= Url::to(['/site/login']) ?>">Sign in </a>
+              </li>
+              <?php }?>
             </ul>
           </div>
         </nav>

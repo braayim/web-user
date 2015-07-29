@@ -6,9 +6,9 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\InsuranceCompanies;
-
-
-  session_start();
+if (!Yii::$app->session->isActive){
+          session_start();  
+      }
 
 
 /**
@@ -16,6 +16,8 @@ use app\models\InsuranceCompanies;
  */
 class InsuranceCompaniesSearch extends InsuranceCompanies
 {
+
+      
     /**
      * @inheritdoc
      */
@@ -67,8 +69,6 @@ class InsuranceCompaniesSearch extends InsuranceCompanies
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'email_address', $this->email_address]);
-
-
 
      unset($_SESSION['exportData']);
     $_SESSION['exportData'] = $dataProvider;

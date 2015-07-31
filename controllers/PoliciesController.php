@@ -8,6 +8,7 @@ use app\models\PoliciesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * PoliciesController implements the CRUD actions for Policies model.
@@ -17,6 +18,17 @@ class PoliciesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view','delete','update','create'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view','delete','update','create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

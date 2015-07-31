@@ -7,7 +7,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Policies;
 
-session_start();
+if (!Yii::$app->session->isActive){
+          session_start();  
+      }
 /**
  * PoliciesSearch represents the model behind the search form about `app\models\Policies`.
  */
@@ -46,6 +48,7 @@ class PoliciesSearch extends Policies
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 15],
         ]);
 
         $this->load($params);

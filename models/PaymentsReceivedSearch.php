@@ -7,7 +7,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\PaymentsReceived;
 
-session_start();
+if (!Yii::$app->session->isActive){
+          session_start();  
+      }
 
 /**
  * PaymentsReceivedSearch represents the model behind the search form about `app\models\PaymentsReceived`.

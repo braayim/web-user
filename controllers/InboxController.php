@@ -8,7 +8,7 @@ use app\models\InboxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * InboxController implements the CRUD actions for Inbox model.
  */
@@ -17,6 +17,17 @@ class InboxController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view','delete','update','create'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view','delete','update','create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

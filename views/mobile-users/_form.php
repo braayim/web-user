@@ -43,3 +43,13 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php 
+$script = <<< JS
+$("document").ready(function(){ 
+    $("#mobile_users").removeClass('active').addClass('active');
+    $("#muser_create").removeClass('active').addClass('active');
+  });
+JS;
+$this->registerJs($script);
+?>

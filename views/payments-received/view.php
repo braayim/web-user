@@ -19,7 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'aggregator',
+            [
+            'attribute'=>'aggregator',
+            'value'=>$model->aggregators->name,
+            ],
             'aggregator_transaction_id',
             'vehicle_reference',
             'aggregator_payment_processed_date',
@@ -37,3 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+<?php 
+$script = <<< JS
+$("document").ready(function(){ 
+    $("#insurance").removeClass('active').addClass('active');
+    $("#payments").removeClass('active').addClass('active');
+  });
+JS;
+$this->registerJs($script);
+?>

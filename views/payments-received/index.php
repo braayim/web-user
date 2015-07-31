@@ -38,7 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'headerRowOptions' => ['style'=>'background-color:#fff'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'aggregator',
+            [
+            'attribute' => 'aggregator',
+            'value'=>'aggregators.name',
+            ],
             'aggregator_transaction_id',
             'vehicle_reference',
             //'aggregator_payment_processed_date',

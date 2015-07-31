@@ -3,17 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\UraStampdutyPrnReg;
-use app\models\UraStampdutyPrnRegSearch;
+use app\models\AuthItem;
+use app\models\AuthItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 /**
- * UraStampdutyPrnRegController implements the CRUD actions for UraStampdutyPrnReg model.
+ * AuthItemController implements the CRUD actions for AuthItem model.
  */
-class UraStampdutyPrnRegController extends Controller
+class AuthItemController extends Controller
 {
     public function behaviors()
     {
@@ -39,23 +39,24 @@ class UraStampdutyPrnRegController extends Controller
     }
 
     /**
-     * Lists all UraStampdutyPrnReg models.
+     * Lists all AuthItem models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new UraStampdutyPrnRegSearch();
+        $searchModel = new AuthItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $model = new AuthItem();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model'=>$model,
         ]);
     }
 
     /**
-     * Displays a single UraStampdutyPrnReg model.
-     * @param integer $id
+     * Displays a single AuthItem model.
+     * @param string $id
      * @return mixed
      */
     public function actionView($id)
@@ -66,46 +67,52 @@ class UraStampdutyPrnRegController extends Controller
     }
 
     /**
-     * Creates a new UraStampdutyPrnReg model.
+     * Creates a new AuthItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new UraStampdutyPrnReg();
-
+        $model = new AuthItem();
+        $searchModel = new AuthItemSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->name]);
         } else {
-            return $this->render('create', [
+            return $this->render('index', [
                 'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         }
     }
 
     /**
-     * Updates an existing UraStampdutyPrnReg model.
+     * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
+        $model = $this->findModelChild($id);
+        $searchModel = new AuthItemSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->name]);
         } else {
-            return $this->render('update', [
+            return $this->render('index', [
                 'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         }
     }
 
     /**
-     * Deletes an existing UraStampdutyPrnReg model.
+     * Deletes an existing AuthItem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -116,15 +123,15 @@ class UraStampdutyPrnRegController extends Controller
     }
 
     /**
-     * Finds the UraStampdutyPrnReg model based on its primary key value.
+     * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return UraStampdutyPrnReg the loaded model
+     * @param string $id
+     * @return AuthItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UraStampdutyPrnReg::findOne($id)) !== null) {
+        if (($model = AuthItem::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

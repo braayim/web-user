@@ -4,16 +4,16 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\AuthItemChild */
+/* @var $model app\models\AuthItem */
 
-$this->title = 'Create Auth Item Child';
-$this->params['breadcrumbs'][] = ['label' => 'Auth Item Children', 'url' => ['index']];
+$this->title = 'Create Auth Item';
+$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="auth-item-child-create">
+<div class="auth-item-create">
 
     <div class="col-xs-12">
-  <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-plus"></i> Assign Role Permision</h3>
+  <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-plus"></i> Add Authentication rule</h3>
   </div>
  <div class="col-xs-4"></div>
    <div class="col-lg-4 col-sm-4 col-xs-12 no-padding" style="padding-top: 20px !important;">
@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
    </div>
  </div>
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

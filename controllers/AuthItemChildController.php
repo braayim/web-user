@@ -8,6 +8,7 @@ use app\models\AuthItemChildSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * AuthItemChildController implements the CRUD actions for AuthItemChild model.
@@ -17,6 +18,17 @@ class AuthItemChildController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view','delete','update','create'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view','delete','update','create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -34,10 +46,11 @@ class AuthItemChildController extends Controller
     {
         $searchModel = new AuthItemChildSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $model = new AuthItemChild();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -62,12 +75,16 @@ class AuthItemChildController extends Controller
     public function actionCreate()
     {
         $model = new AuthItemChild();
+        $searchModel = new AuthItemChildSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'parent' => $model->parent, 'child' => $model->child]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         }
     }
@@ -82,12 +99,16 @@ class AuthItemChildController extends Controller
     public function actionUpdate($parent, $child)
     {
         $model = $this->findModel($parent, $child);
+        $searchModel = new AuthItemChildSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'parent' => $model->parent, 'child' => $model->child]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider
             ]);
         }
     }

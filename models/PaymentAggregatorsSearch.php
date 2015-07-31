@@ -6,7 +6,9 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\PaymentAggregators;
-session_start();
+if (!Yii::$app->session->isActive){
+          session_start();  
+      }
 /**
  * PaymentAggregatorsSearch represents the model behind the search form about `app\models\PaymentAggregators`.
  */

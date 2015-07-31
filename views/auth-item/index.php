@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\AuthItemChildSearch */
+/* @var $searchModel app\models\AuthItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Auth Item Children';
+$this->title = 'Auth Items';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="auth-item-child-index">
+<div class="auth-item-index">
 
     <?php if($model->isNewRecord) 
       echo $this->render('create', ['model' => $model]);  
@@ -21,19 +21,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-xs-12" style="padding-top: 10px;">
     <div class="box">
     <div class="box-body table-responsive">
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
+        'filterModel'  => $searchModel,
         'layout'  => "{items}\n{pager}",
         'headerRowOptions' => ['style'=>'background-color:#fff'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+            'attribute' => 'Name',
+            'value'=>'name'
+            ],
+            [
+            'attribute' => 'Type',
+            'value' => function ($model) {
+                    return $model->type == '1'
+                        ? '<span> Row </span>'
+                        : 'Permission';
+                },
+            'format' => 'html',
+            ],
+            //'description:ntext',
+            //'rule_name',
+            //'data:ntext',
+            // 'created_at',
+            // 'updated_at',
 
-            'parent',
-            'child',
-
-             [
+            [
              'class' => 'app\components\CustomActionColumn',
              ],
         ],

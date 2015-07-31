@@ -39,30 +39,19 @@ use yii\helpers\Url;
                 <li><a href="#"><i class="fa fa-circle-o"></i> Update Account</a></li>
               </ul>
             </li>
-            <li class="treeview">
+            <li id="user" class="treeview">
               <a href="#">
                 <i class="fa fa-users"></i>
                 <span>Users Panel</span>
                 <span class="label label-primary pull-right">4</span>
               </a>
               <ul class="treeview-menu">
-                <li id="user"><a href="<?= Url::to(['/user/index']); ?>"><i class="fa fa-circle-o"></i> Manage Users</a></li>
+                <li id="user_index"><a href="<?= Url::to(['/user/index']); ?>"><i class="fa fa-circle-o"></i> Manage Users</a></li>
                 <li id="user_create"><a href="<?= Url::to(['/user/create']); ?>"><i class="fa fa-circle-o"></i> New User</a></li>
-                <li><a href="<?= Url::to(['/auth-item/create']); ?>"><i class="fa fa-circle-o"></i> New Role</a></li>
-                <li><a href="<?= Url::to(['/auth-rule/create']); ?>"><i class="fa fa-circle-o"></i> New Rule</a></li>
+                <li id="user_permissions"><a href="<?= Url::to(['/auth-item/create']); ?>"><i class="fa fa-circle-o"></i> New Permisson</a></li>
               </ul>
             </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-laptop"></i>
-                <span>Settings</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> setting 1</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> setting 2</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> setting 3</a></li>
-              </ul>
+            
             </li>
             <li class="treeview" id="insurance">
               <a href="#">
@@ -84,9 +73,20 @@ use yii\helpers\Url;
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                 <li id="ura_create"><a href="<?= Url::to(['/ura-firstime-reg/create']); ?>"><i class="fa fa-circle-o"></i> Register</a></li>
                 <li id="ura_index"><a href="<?= Url::to(['/ura-firstime-reg']); ?>"><i class="fa fa-circle-o"></i> First Time Registrations</a></li>
                 <li id="ura_stampduty"><a href="<?= Url::to(['/ura-stampduty-prn-reg']); ?>"><i class="fa fa-circle-o"></i> Stamp Duty Prn</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview" id="mobile_users">
+              <a href="#">
+                <i class="fa fa-users"></i>
+                <span>Mobile Users</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li id="muser_index"><a href="<?= Url::to(['/mobile-users']); ?>"><i class="fa fa-circle-o"></i> View Mobile Users</a></li>
+                <li id="muser_create"><a href="<?= Url::to(['/mobile-users/create']); ?>"><i class="fa fa-circle-o"></i> Add Mobile User</a></li>
               </ul>
             </li>
 
@@ -113,17 +113,6 @@ use yii\helpers\Url;
                 <small class="label pull-right bg-yellow"><?= $outbox ?></small>
                 <?php } ?>
                 </a></li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-edit"></i> <span>Neon</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Action 1s</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Action 2</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Action 3</a></li>
               </ul>
             </li>
             

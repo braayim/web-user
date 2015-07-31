@@ -4,10 +4,12 @@ namespace app\controllers;
 
 use Yii;
 use app\models\User;
+use app\models\AuthAssignment;
 use app\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ConsoleUsersController implements the CRUD actions for ConsoleUsers model.
@@ -17,6 +19,17 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view','delete','update','create'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view','delete','update','create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -60,15 +73,17 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        $model = new User(['scenario' => 'create']);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {         
             $data = Yii::$app->request->post();
             $passwd = $data['User']['password'];
             $model->setPassword($passwd);
             $model->save(false);
+            $model->setAuthAssignment($model->user_level, $model->id);
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        } 
+        else {
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -84,16 +99,20 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->scenario = 'update';
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $data = Yii::$app->request->post();
+                $passwd = $data['User']['password'];
+                $model->setPassword($passwd);
+                $model->save(false);
+                $model->setAuthAssignment($model->user_level, $model->id);
+                return $this->redirect(['view', 'id' => $model->id]); 
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
     }
-
     /**
      * Deletes an existing ConsoleUsers model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

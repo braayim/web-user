@@ -7,6 +7,10 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\User;
 
+if (!Yii::$app->session->isActive){
+          session_start();  
+      }
+
 /**
  * ConsoleUsersSearch represents the model behind the search form about `app\models\ConsoleUsers`.
  */
@@ -48,6 +52,7 @@ class UserSearch extends User
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 15,],
         ]);
 
         $this->load($params);
@@ -74,6 +79,21 @@ class UserSearch extends User
             ->orFilterWhere(['ilike', 'user_level', $this->modelSearch])
             ->orFilterWhere(['ilike', 'user_permissions', $this->modelSearch]);
 
+        unset($_SESSION['exportData']);
+        $_SESSION['exportData'] = $dataProvider;
+
         return $dataProvider;
+    }
+
+    public static function getExportData() 
+    {
+    $data = [
+            'data'=>$_SESSION['exportData'],
+            'fileName'=>'console-users', 
+            'title'=>'Users Datasheet',
+            'exportFile'=>'/user/exportPdfExcel',
+        ];
+
+    return $data;
     }
 }

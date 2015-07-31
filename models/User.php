@@ -6,6 +6,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\web\IdentityInterface;
+use app\models\AuthAssignment;
 /**
  * This is the model class for table "console_users".
  *
@@ -24,16 +25,14 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const INSU_COMP_USER = 1;
-    const NEON =2;
-    const URA =3;
-    const ADMIN = 4; 
+    
+   public $password2;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'console_users';
+        return '{{%console_users}}';
     }
     /**
      * @inheritdoc
@@ -55,15 +54,33 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'fullname', 'mobile_number', 'email_address'], 'required'],
-            [['username', 'fullname', 'mobile_number', 'email_address', 'password', 'user_level', 'user_permissions'], 'string'],
-            [['incorrect_access_count', 'parent_insurance_company'], 'integer'],
-            [['date_created', 'updated_at'], 'safe'],
+            [['username', 'fullname', 'mobile_number', 'user_level', 'email_address', 'password', 'password2'], 'required', 'on'=>'create'],
+            [['username', 'fullname', 'mobile_number', 'user_level', 'email_address'], 'required', 'on'=>'update'],
+            [['password', 'password2'], 'required', 'on'=>'resetPassword'],
+            [['username', 'email_address'], 'trim'],
+            [['username'], 'unique', 'message'=>'This Username has already been taken'],
+            [['email_address'], 'unique', 'message'=>'This user email is already registered'],
+            [['email_address'], 'email'],
+            [['parent_insurance_company'], 'default'],
+            ['password2', 'compare', 'compareAttribute' => 'password'],
             [['locked'], 'boolean'],
             [['password_reset_token', 'auth_key'], 'string', 'max' => 2044],
-            [['username'], 'unique']
+            
         ];
     }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['create'] = ['username', 'fullname', 'mobile_number', 'user_level', 'email_address',  'parent_insurance_company','password', 'password2'];
+
+        $scenarios['update'] = ['username', 'fullname', 'mobile_number', 'user_level', 'email_address', 'parent_insurance_company', 'locked'];
+        $scenarios['resetPassword'] = ['password', 'password2', 'locked'];
+        $scenarios['count'] = ['incorrect_access_count'];
+        return $scenarios;
+    }
+
+
     /**
      * @inheritdoc
      */
@@ -77,9 +94,10 @@ class User extends ActiveRecord implements IdentityInterface
             'email_address' => 'Email Address',
             'incorrect_access_count' => 'Incorrect Access Count',
             'password' => 'Password',
+            'password2' => 'Confirm Password',
             'date_created' => 'Date_created',
             'locked' => 'Locked',
-            'user_level' => 'User Level',
+            'user_level' => 'Type of User',
             'parent_insurance_company' => 'Parent Insurance Company',
             'user_permissions' => 'User Permissions',
             'password_reset_token' => 'Password Reset Token',
@@ -87,6 +105,53 @@ class User extends ActiveRecord implements IdentityInterface
             'updated_at' => 'Updated At',
         ];
     }
+
+    // /**
+    //  * @inheritdoc
+    //  */
+    // public function beforeSave($insert)
+    // {
+    //     if (parent::beforeSave($insert)) {
+    //         if($this->isNewRecord){
+
+    //         } else {
+
+    //         }
+
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    public function setAuthAssignment($role, $id)
+    {
+        if(!empty($role) && !empty($id)){
+            $authAssign = AuthAssignment::find()->where(['user_id'=>$id])->one();
+            if($authAssign !== null){
+                $authAssign->item_name = $role;
+                $authAssign->user_id = $id;
+                return $authAssign->save(false);  
+            }else 
+            {
+                $authAssign = new AuthAssignment();
+                $authAssign->item_name = $role;
+                $authAssign->user_id = $id;
+                return $authAssign->save(false);  
+            }
+        }
+        else{
+            return false;
+        }
+        
+
+    }
+
+    public function incorrectLogins($id)
+    {
+        return static::findOne(['id' => $id, 'locked' => false]);
+    }
+
     /**
      * @inheritdoc
      */

@@ -60,3 +60,12 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 </div>
+<?php 
+$script = <<< JS
+$("document").ready(function(){ 
+    $("#mobile_users").removeClass('active').addClass('active');
+    $("#muser_index").removeClass('active').addClass('active');
+  });
+JS;
+$this->registerJs($script);
+?>

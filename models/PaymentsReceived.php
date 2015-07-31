@@ -70,4 +70,9 @@ class PaymentsReceived extends \yii\db\ActiveRecord
             'sticker_generated' => 'Sticker',
         ];
     }
+
+    public function getAggregators()
+    {
+        return $this->hasOne(PaymentAggregators::className(), ['id' => 'aggregator']);
+    }
 }

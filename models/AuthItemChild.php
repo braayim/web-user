@@ -40,8 +40,8 @@ class AuthItemChild extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'parent' => 'Parent',
-            'child' => 'Child',
+            'parent' => 'Role',
+            'child' => 'Permission',
         ];
     }
 

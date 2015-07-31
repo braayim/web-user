@@ -41,7 +41,7 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return [
             [['item_name', 'user_id'], 'required'],
-            [['created_at'], 'integer'],
+            [['created_at', 'updated_at'], 'integer'],
             [['item_name', 'user_id'], 'string', 'max' => 64]
         ];
     }

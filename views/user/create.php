@@ -19,3 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+<?php 
+$script = <<< JS
+$("document").ready(function(){ 
+    $("#user").removeClass('active').addClass('active');
+    $("#user_create").removeClass('active').addClass('active');
+  });
+JS;
+$this->registerJs($script);
+?>

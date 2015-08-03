@@ -45,7 +45,6 @@ class InsuranceController extends Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->can('ira_user')){
             $searchModel = new InsuranceCompaniesSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             $model = new InsuranceCompanies();
@@ -54,10 +53,6 @@ class InsuranceController extends Controller
                 'dataProvider' => $dataProvider,
                 'model'=>$model,
             ]);
-
-        } else{
-            throw new ForbiddenHttpException;
-        }
     }
 
     /**
@@ -80,6 +75,10 @@ class InsuranceController extends Controller
 
         public function actionCreate()
         {
+             if (Yii::$app->request->isAjax) {
+                $this->layout = false;
+             }
+
             $model = new InsuranceCompanies();
             $searchModel = new InsuranceCompaniesSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

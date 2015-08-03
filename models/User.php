@@ -27,6 +27,7 @@ class User extends ActiveRecord implements IdentityInterface
 {
     
    public $password2;
+   public $current_pass, $new_pass;
     /**
      * @inheritdoc
      */
@@ -57,12 +58,16 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'fullname', 'mobile_number', 'user_level', 'email_address', 'password', 'password2'], 'required', 'on'=>'create'],
             [['username', 'fullname', 'mobile_number', 'user_level', 'email_address'], 'required', 'on'=>'update'],
             [['password', 'password2'], 'required', 'on'=>'resetPassword'],
+            [['current_pass', 'new_pass', 'password2'], 'required', 'on'=>'change'],
+            [['password', 'new_pass'], 'string', 'min'=>7],
             [['username', 'email_address'], 'trim'],
             [['username'], 'unique', 'message'=>'This Username has already been taken'],
             [['email_address'], 'unique', 'message'=>'This user email is already registered'],
             [['email_address'], 'email'],
             [['parent_insurance_company'], 'default'],
-            ['password2', 'compare', 'compareAttribute' => 'password'],
+            ['current_pass','checkOldPassword','on'=>'change','message'=>''],
+            ['password2', 'compare', 'compareAttribute' => 'password', 'on'=>['create', 'update']],
+            ['password2', 'compare', 'compareAttribute' => 'new_pass', 'on'=>'change'],
             [['locked'], 'boolean'],
             [['password_reset_token', 'auth_key'], 'string', 'max' => 2044],
             
@@ -75,7 +80,7 @@ class User extends ActiveRecord implements IdentityInterface
         $scenarios['create'] = ['username', 'fullname', 'mobile_number', 'user_level', 'email_address',  'parent_insurance_company','password', 'password2'];
 
         $scenarios['update'] = ['username', 'fullname', 'mobile_number', 'user_level', 'email_address', 'parent_insurance_company', 'locked'];
-        $scenarios['resetPassword'] = ['password', 'password2', 'locked'];
+        $scenarios['change'] = ['current_pass', 'new_pass', 'password', 'password2'];
         $scenarios['count'] = ['incorrect_access_count'];
         return $scenarios;
     }
@@ -97,6 +102,8 @@ class User extends ActiveRecord implements IdentityInterface
             'password2' => 'Confirm Password',
             'date_created' => 'Date_created',
             'locked' => 'Locked',
+            'new_pass'=>'New Password',
+            'current_pass'=>'Current Password',
             'user_level' => 'Type of User',
             'parent_insurance_company' => 'Parent Insurance Company',
             'user_permissions' => 'User Permissions',
@@ -147,9 +154,13 @@ class User extends ActiveRecord implements IdentityInterface
 
     }
 
-    public function incorrectLogins($id)
+    public function checkOldPassword($attribute,$params)
     {
-        return static::findOne(['id' => $id, 'locked' => false]);
+    $user = $this->find()->where(['id'=>Yii::$app->user->id])->one();
+
+    if(!$user->validatePassword($this->current_pass)) {
+        $this->addError($attribute, 'Invalid or Wrong password');
+    }
     }
 
     /**

@@ -2,11 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\InsuranceCompanies */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+
+
 
 <div class="col-xs-12 col-lg-12">
   <div class=" box view-item col-xs-12 col-lg-12">
@@ -18,10 +21,9 @@ use yii\widgets\ActiveForm;
 		$action = ['create'];
     ?>
 	
+    <?php Pjax::begin(['id' => 'insurance-companies-form']) ?>
     <?php $form = ActiveForm::begin([
-			'id' => 'insurance-companies-form',
 			'action' => $action,
-      'enableAjaxValidation' => true,
 			
     ]); ?>
 
@@ -54,6 +56,7 @@ use yii\widgets\ActiveForm;
      </div>
 
     <?php ActiveForm::end(); ?>
+    <?php Pjax::end(); ?>
     </div>
   </div>
 </div>

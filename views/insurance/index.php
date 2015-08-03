@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\InsuranceCompaniesSearch */
@@ -38,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box">
 <div class="box-body table-responsive">
     <div class="state-index">
+      <?php Pjax::begin(['id' => 'insurance_co_grid']); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -56,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
              ],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
         </div>
     </div>
   </div>

@@ -6,25 +6,21 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\ConsoleUsers */
 
-$this->title = $model->id;
+$this->title = $model->fullname;
 $this->params['breadcrumbs'][] = ['label' => 'Console Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="console-users-view">
 
+    
+<section class="content-header">
+<div class="row">
+  <div class="col-xs-12">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -34,12 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'mobile_number',
             'email_address',
             'incorrect_access_count',
-            'password',
+            //'password',
             'date_created',
             'locked:boolean',
             'user_level',
             'parent_insurance_company',
         ],
     ]) ?>
-
 </div>
+</div>
+</section>

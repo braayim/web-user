@@ -90,6 +90,27 @@ class UserController extends Controller
         }
     }
 
+     public function actionChange()
+    {
+        $model=$this->findModel(Yii::$app->user->id);
+        $model->scenario = 'change';
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {         
+            $data = Yii::$app->request->post();
+            $passwd = $data['User']['new_pass'];
+            $model->setPassword($passwd);
+            $model->save(false);
+            return $this->redirect(['view', 'id' => $model->id]);
+        } 
+        else {
+            return $this->render('change_pass', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
+
     /**
      * Updates an existing ConsoleUsers model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -100,11 +121,7 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
         $model->scenario = 'update';
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                $data = Yii::$app->request->post();
-                $passwd = $data['User']['password'];
-                $model->setPassword($passwd);
-                $model->save(false);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 $model->setAuthAssignment($model->user_level, $model->id);
                 return $this->redirect(['view', 'id' => $model->id]); 
         } else {

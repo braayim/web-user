@@ -65,10 +65,10 @@ class InsuranceCompaniesSearch extends InsuranceCompanies
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'email_address', $this->email_address]);
+        $query->andFilterWhere(['ilike', 'code', $this->code])
+            ->andFilterWhere(['ilike', 'description', $this->description])
+            ->andFilterWhere(['ilike', 'address', $this->address])
+            ->andFilterWhere(['ilike', 'email_address', $this->email_address]);
 
      unset($_SESSION['exportData']);
     $_SESSION['exportData'] = $dataProvider;

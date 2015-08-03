@@ -20,11 +20,14 @@ DashAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
+
 <body class="skin-black-light sidebar-mini">
 <?php $this->beginBody() ?>
   <div class="wrapper">
-<?= $this->render('header.php') ?>
-<?= $this->render('side.php') ?>
+    <?= $this->render('header.php') ?>
+    <div>
+    <?= $this->render('side.php') ?>
+   </div>
 
   <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -43,9 +46,9 @@ DashAsset::register($this);
             <?= $content ?>
         </section>
     </div>
-</div>
 
+</div>
 <?php $this->endBody() ?>
 </body>
-</html>
 <?php $this->endPage() ?>
+

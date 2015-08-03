@@ -20,6 +20,7 @@ use app\models\AuthItem;
    <div class="col-xs-12 col-lg-12 no-padding">
     <p>&nbsp;</p>
     </div>
+    <?php if(\Yii::$app->user->can('admin')): ?>
    <div class="col-xs-12 col-lg-12 no-padding">
     <div class="col-sm-6">
     <?= $form->field($model, 'user_level')->dropDownList(
@@ -38,6 +39,7 @@ use app\models\AuthItem;
         ])->label(''); ?>
     </div>
    </div>
+<?php endif; ?>
 
    <div class="col-xs-12 col-lg-12 no-padding">
     <div class="col-sm-6">
@@ -55,8 +57,8 @@ use app\models\AuthItem;
     <div class="col-sm-6">
     <?= $form->field($model, 'email_address', ['inputOptions'=>[ 'class'=>'form-control', 'placeholder'=> 'Email Address'] ])->textInput()->label('') ?>
     </div>
-   </div>
-
+    </div>
+<?php if($model->isNewRecord): ?>
    <div class="col-xs-12 col-lg-12 no-padding">
     <div class="col-sm-6">
     <?= $form->field($model, 'password', ['inputOptions'=>[ 'class'=>'form-control', 'placeholder'=> 'Password'] ])->passwordInput()->label('') ?>
@@ -65,7 +67,7 @@ use app\models\AuthItem;
     <?= $form->field($model, 'password2', ['inputOptions'=>[ 'class'=>'form-control', 'placeholder'=> 'Comfirm Password'] ])->passwordInput()->label('') ?>
     </div>
    </div>
-
+<?php endif; ?>
    <div class="form-group col-xs-12 col-sm-6 col-lg-4 no-padding">
     <div class="col-xs-6">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-block btn-primary']) ?>

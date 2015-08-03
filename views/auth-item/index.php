@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'Type',
             'value' => function ($model) {
                     return $model->type == '1'
-                        ? '<span> Row </span>'
+                        ? '<span> Role </span>'
                         : 'Permission';
                 },
             'format' => 'html',

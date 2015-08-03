@@ -13,7 +13,9 @@ use yii\helpers\Url;
 
             </div>
             <div class="pull-left info">
-              <p>Username</p>
+              <p><?php if(!\Yii::$app->user->isGuest){
+                echo Yii::$app->user->identity->username;
+              } ?></p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
@@ -30,25 +32,27 @@ use yii\helpers\Url;
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview">
+            <li class="treeview" id="my_account">
               <a href="#">
                 <i class="fa fa-user"></i> <span>MY ACCOUNT</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Account</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Update Account</a></li>
+                <li id="my_profile"><a href="<?= Url::to(['/user/view', 'id'=>\Yii::$app->user->id]); ?>"><i class="fa fa-circle-o"></i> Account</a></li>
+                <li id="reset_password"><a href="<?= Url::to(['/user/change', 'id'=>\Yii::$app->user->id]); ?>"><i class="fa fa-circle-o"></i> Reset Password</a></li>
               </ul>
             </li>
             <li id="user" class="treeview">
               <a href="#">
                 <i class="fa fa-users"></i>
                 <span>Users Panel</span>
-                <span class="label label-primary pull-right">4</span>
+                <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                <?php if(\Yii::$app->user->can('admin')): ?>
                 <li id="user_index"><a href="<?= Url::to(['/user/index']); ?>"><i class="fa fa-circle-o"></i> Manage Users</a></li>
                 <li id="user_create"><a href="<?= Url::to(['/user/create']); ?>"><i class="fa fa-circle-o"></i> New User</a></li>
                 <li id="user_permissions"><a href="<?= Url::to(['/auth-item/create']); ?>"><i class="fa fa-circle-o"></i> New Permisson</a></li>
+              <?php endif; ?>
               </ul>
             </li>
             
@@ -59,7 +63,9 @@ use yii\helpers\Url;
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                <?php if(\Yii::$app->user->can('insurance_user')): ?>
                 <li id="insurance_create"><a href="<?= Url::to(['/insurance/create']); ?>"><i class="fa fa-circle-o"></i>Add Company</a></li>
+              <?php endif; ?>
                 <li id="policies"><a href="<?= Url::to(['/policies']); ?>"><i class="fa fa-circle-o"></i> Policies</a></li>
                 <li id="payments"><a href="<?= Url::to(['/payments-received/index']); ?>"><i class="fa fa-circle-o"></i> Payments Received</a></li>
                 <li id="aggregators"><a href="<?= Url::to(['/payment-aggregators/index']); ?>"><i class="fa fa-circle-o"></i> Aggregators</a></li>
@@ -85,8 +91,10 @@ use yii\helpers\Url;
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                <?php if(\Yii::$app->user->can('admin')): ?>
                 <li id="muser_index"><a href="<?= Url::to(['/mobile-users']); ?>"><i class="fa fa-circle-o"></i> View Mobile Users</a></li>
                 <li id="muser_create"><a href="<?= Url::to(['/mobile-users/create']); ?>"><i class="fa fa-circle-o"></i> Add Mobile User</a></li>
+                <?php endif; ?>
               </ul>
             </li>
 
@@ -95,23 +103,22 @@ use yii\helpers\Url;
                 <i class="fa fa-envelope"></i> <span>Messages</span>
                 <?php
                 $unread = app\models\Inbox::find()->where(['read'=>false])->count();
-                if($unread > 0){
-                ?>
-                <small class="label pull-right bg-red"><?= $unread?></small>
-                <?php } ?>
+                if($unread > 0): ?>
+                <small class="label pull-right bg-red"><?php echo $unread ?></small>
+                <?php endif; ?>
               </a>
               <ul class="treeview-menu">
                 <li id="inbox"><a href="<?= Url::to(['/inbox']); ?>"><i class="fa fa-circle-o"></i> Inbox
-                <? if($unread > 0){?>
-                <small class="label pull-right bg-yellow"><?= $unread?></small>
-                <?php } ?></a></li>
+                <?php if($unread > 0): ?>
+                <small class="label pull-right bg-yellow"><?php echo $unread; ?></small>
+                <?php endif; ?></a></li>
 
                 <li id="outbox"><a href="<?= Url::to(['/outbox']); ?>"><i class="fa fa-circle-o"></i> Outbox
-                   <? 
+                   <?php 
                    $outbox = app\models\MessageOutbox::find()->count();
-                  if($outbox > 0){ ?>
-                <small class="label pull-right bg-yellow"><?= $outbox ?></small>
-                <?php } ?>
+                  if($outbox > 0): ?>
+                <small class="label pull-right bg-yellow"><?php echo $outbox; ?></small>
+                <?php endif; ?>
                 </a></li>
               </ul>
             </li>

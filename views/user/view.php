@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'mobile_number',
             'email_address',
             'incorrect_access_count',
-            //'password',
+            'password',
             'date_created',
             'locked:boolean',
             'user_level',

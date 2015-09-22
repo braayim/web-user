@@ -77,6 +77,7 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {         
             $data = Yii::$app->request->post();
+            $model->username = strtolower($data['User']['username']);
             $passwd = $data['User']['password'];
             $model->setPassword($passwd);
             $model->save(false);
@@ -109,6 +110,30 @@ class UserController extends Controller
         }
     }
 
+    public function actionReset($id)
+    {
+        // if(Yii::$app->user->can('super_admin')){
+        $model=$this->findModel($id);
+        $model->scenario = 'change';
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {         
+            $data = Yii::$app->request->post();
+            $passwd = $data['User']['new_pass'];
+            $model->setPassword($passwd);
+            $model->save(false);
+            return $this->redirect(['view', 'id' => $model->id]);
+        } 
+        else {
+            return $this->render('reset_pass', [
+                'model' => $model,
+            ]);
+        }
+
+      //   } else {
+      //   throw new ForbiddenHttpException('Insufficient privileges to access this area.');
+      // }
+    }
+
 
 
     /**
@@ -121,7 +146,12 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
         $model->scenario = 'update';
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $data = Yii::$app->request->post();
+                if(isset($data['User']['username'])){
+                $model->username = strtolower($data['User']['username']);
+                }
+                $model->save(false);
                 $model->setAuthAssignment($model->user_level, $model->id);
                 return $this->redirect(['view', 'id' => $model->id]); 
         } else {

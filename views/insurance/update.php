@@ -11,6 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' 
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 
+<div class="row">
 <div class="col-xs-12">
   <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-edit"></i> Update   Company</h3>
   </div>
@@ -23,11 +24,12 @@ $this->params['breadcrumbs'][] = 'Update';
 	</div>
     </div>
  </div>
+</div>
   
  <div class="insurance-companies-update">
-
+  <div class="row">
    <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
+  </div>
   </div>

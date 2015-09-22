@@ -41,6 +41,7 @@ use yii\helpers\Url;
                 <li id="reset_password"><a href="<?= Url::to(['/user/change', 'id'=>\Yii::$app->user->id]); ?>"><i class="fa fa-circle-o"></i> Reset Password</a></li>
               </ul>
             </li>
+            <?php if(\Yii::$app->user->can('admin')): ?>
             <li id="user" class="treeview">
               <a href="#">
                 <i class="fa fa-users"></i>
@@ -48,14 +49,14 @@ use yii\helpers\Url;
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <?php if(\Yii::$app->user->can('admin')): ?>
+                
                 <li id="user_index"><a href="<?= Url::to(['/user/index']); ?>"><i class="fa fa-circle-o"></i> Manage Users</a></li>
                 <li id="user_create"><a href="<?= Url::to(['/user/create']); ?>"><i class="fa fa-circle-o"></i> New User</a></li>
                 <li id="user_permissions"><a href="<?= Url::to(['/auth-item/create']); ?>"><i class="fa fa-circle-o"></i> New Permisson</a></li>
-              <?php endif; ?>
+             
               </ul>
             </li>
-            
+             <?php endif; ?>
             </li>
             <li class="treeview" id="insurance">
               <a href="#">
@@ -84,6 +85,7 @@ use yii\helpers\Url;
               </ul>
             </li>
 
+            <?php if(\Yii::$app->user->can('admin')): ?>
             <li class="treeview" id="mobile_users">
               <a href="#">
                 <i class="fa fa-users"></i>
@@ -91,12 +93,11 @@ use yii\helpers\Url;
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <?php if(\Yii::$app->user->can('admin')): ?>
                 <li id="muser_index"><a href="<?= Url::to(['/mobile-users']); ?>"><i class="fa fa-circle-o"></i> View Mobile Users</a></li>
                 <li id="muser_create"><a href="<?= Url::to(['/mobile-users/create']); ?>"><i class="fa fa-circle-o"></i> Add Mobile User</a></li>
-                <?php endif; ?>
               </ul>
             </li>
+             <?php endif; ?>
 
              <li id="messages">
               <a>
@@ -121,13 +122,6 @@ use yii\helpers\Url;
                 <?php endif; ?>
                 </a></li>
               </ul>
-            </li>
-            
-            <li>
-              <a href="pages/calendar.html">
-                <i class="fa fa-calendar"></i> <span>Calendar</span>
-                <small class="label pull-right bg-red">3</small>
-              </a>
             </li>
            
            

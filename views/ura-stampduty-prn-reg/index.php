@@ -11,6 +11,7 @@ $this->title = 'Ura Stampduty Prn Regs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ura-stampduty-prn-reg-index">
+<div class="row">
  <div class="col-xs-12">
     <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-th-list"></i> <?php echo $this->title ?></h3></div>
         <div class="col-xs-4 col-sm-4 col-xs-12 no-padding" style="padding-top: 20px !important;"><?php echo $this->render('_search', ['model' => $searchModel]); ?></div>
@@ -25,8 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
    </div>
   </div>
+</div>
 
-
+    <div class="row">
     <div class="col-xs-12" style="padding-top: 10px;">
     <div class="box">
     <div class="box-body table-responsive">
@@ -56,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
    </div>
+</div>
 </div>
 
 </div>

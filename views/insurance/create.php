@@ -10,6 +10,7 @@ use yii\helpers\Html;
 $this->params['breadcrumbs'][] = ['label' => 'Insurance Companies', 'url' => ['index']];
 
 ?>
+<div class="row">
 <div class="col-xs-12">
   <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-plus"></i> Add Insurance Company</h3>
   </div>
@@ -22,11 +23,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Insurance Companies', 'url' => ['i
 	</div>
    </div>
  </div>
+</div>
 
 <div class="insurance-companies-create">
+  <div class="row">
      <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+  </div>
 </div>
 
 <?php 

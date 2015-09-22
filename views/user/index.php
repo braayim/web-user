@@ -11,7 +11,7 @@ $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="console-users-index">
-
+<div class="row">
     <div class="col-xs-12">
       <div class="col-lg-4 col-sm-4 col-xs-12 no-padding"><h3 class="box-title"><i class="fa fa-th-list"></i> <?php echo $this->title ?></h3></div>
       <div class="col-xs-4 col-sm-4 col-xs-12 no-padding" style="padding-top: 20px !important;"><?php echo $this->render('_search', ['model' => $searchModel]); ?></div>
@@ -48,7 +48,14 @@ $this->params['breadcrumbs'][] = $this->title;
             //'incorrect_access_count',
             //'password',
             //'date_created',
-            'locked:boolean',
+            //'locked:boolean',
+            [
+                'attribute'=>'Reset',
+                'value'=>function($model){
+                    return Html::a('<i class="fa fa-unlock"></i>', ['reset', 'id'=>$model->id]);
+                },
+                'format'=>'html',
+            ],
             'user_level',
             //'parent_insurance_company',
             //'user_permissions',
@@ -60,7 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
      </div>
   </div>
 </div>
-
+</div>
+</div>
 </div>
 
 
@@ -68,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $script = <<< JS
 $("document").ready(function(){ 
     $("#user").removeClass('active').addClass('active');
-    $("#user_index").removeClass('active').addClass('active');_
+    $("#user_index i").removeClass('active').addClass('text-red');_
   });
 JS;
 $this->registerJs($script);

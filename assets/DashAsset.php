@@ -24,7 +24,7 @@ class DashAsset extends AssetBundle
         'css/AdminLTE.css',
         'css/_all-skins.min.css',
         'plugins/iCheck/flat/blue.css',
-        'css/site.css',
+        'css/site2.css',
     ];
     public $js = [
         'js/bootstrap.min.js',
